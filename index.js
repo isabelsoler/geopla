@@ -435,31 +435,56 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 			var cx = 0;
 			var cy = 0;
 			
-			if(line1.p1 != line2.p2 && line1.p2 != line2.p1 && line1.m != line2.m){
-				corte = true;
-				var cx = (line1.b - line2.b)/(line2.m - line1.m);
-				var cy = line1.m * cx + line1.b;
+			if(line1.p1 != line2.p2 && line1.p2 != line2.p1 ){
+				//if((line1.m != 0 || line2.m != 0) && line1.m != line2.m){
+					corte = true;
+					var cx = (line1.b - line2.b)/(line2.m - line1.m);
+					var cy = line1.m * cx + line1.b;
 		
-				if(line1.tipo == "V"){
-					cx = line1.b;
-					cy = line2.m * cx + line2.b;
-				}else if(line2.tipo == "V"){
-					cx = line2.b;
-					cy = line1.m * cx + line1.b;
-				}
+					if(line1.tipo == "V"){
+						cx = line1.b;
+						cy = line2.m * cx + line2.b;
+					}else if(line2.tipo == "V"){
+						cx = line2.b;
+						cy = line1.m * cx + line1.b;
+					}
 		
-				//Comprobar que el punto de corte está dentro de los límites de los 2 segmentos
-				if(cx < line1.x1 || cx > line1.x2){
-					corte = false;
-				}
-				if(cy < line1.y1 || cy > line1.y2){
-					corte = false;
-				}
-				if(cx < line2.x1 || cx > line2.x2){
-					corte = false;
-				}
-				if(cy < line2.y1 || cy > line2.y2){
-					corte = false;
+					if(line1.tipo == "D" || line2.tipo == "D"){
+						//Comprobar que el punto de corte está dentro de los límites de los 2 segmentos
+						if(cx < line1.x1 || cx > line1.x2){
+							corte = false;
+						}
+						if(cy < line1.y1 || cy > line1.y2){
+							corte = false;
+						}
+						if(cx < line2.x1 || cx > line2.x2){
+							corte = false;
+						}
+						if(cy < line2.y1 || cy > line2.y2){
+							corte = false;
+						}
+					}else{
+						if(line1.tipo == line2.tipo){
+							corte = false;
+						}else{
+							if(line1.tipo == "H"){
+								if(cx < line1.x1 || cx > line1.x2){
+									corte = false;
+								}
+								if(cy < line2.y1 || cy > line2.y2){
+									corte = false;
+								}
+							}
+							else if(line2.tipo == "H"){
+								if(cx < line2.x1 || cx > line2.x2){
+									corte = false;
+								}
+								if(cy < line1.y1 || cy > line1.y2){
+									corte = false;
+								}
+							}
+						}
+				//	}
 				}
 			}
 			
@@ -503,7 +528,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 				gomaGraf_arr.push(graf);
 				graf.graf.clear();
 				graf.graf.beginStroke("#9255CF");
-				graf.graf.setStrokeStyle(6, "round");	
+				graf.graf.setStrokeStyle(8, "round");	
 				
 				var p1 = puntos_arr[i];
 				graf.i1 = i;
@@ -711,10 +736,8 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 					}
 				}
 				
-				console.log("CORTES ", cortes_arr);
-				
 				//Borrar cortes repetidos
-				if(cortes_arr.length > 1){
+			/*	if(cortes_arr.length > 1){
 					cortes_arr = cortes_arr.sort((a, b) => a.cx - b.cx);
 					var c_arr = [cortes_arr[0]];
 					var cx = cortes_arr[0].cx;
@@ -728,7 +751,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 					}
 					cortes_arr = c_arr;
 				}
-				/*
+				
 				//Fer un swap entre els punts d'uns dels extrems
 				for(var i=0; i<cortes_arr.length; i++){
 					 //Añadir puntos en los cortes
@@ -907,8 +930,8 @@ lib.properties = {
 	color: "#FFFFFF",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/blackwood.jpg?1650334399423", id:"blackwood"},
-		{src:"images/Mapadebits2.png?1650334399423", id:"Mapadebits2"}
+		{src:"images/blackwood.jpg?1650337835291", id:"blackwood"},
+		{src:"images/Mapadebits2.png?1650337835291", id:"Mapadebits2"}
 	],
 	preloads: []
 };
