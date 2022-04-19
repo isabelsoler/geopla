@@ -119,6 +119,18 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 }).prototype = getMCSymbolPrototype(lib.eliminar_btn, new cjs.Rectangle(-17.6,-17.6,35.2,35.2), null);
 
 
+(lib.dumi = function(mode,startPosition,loop) {
+	this.initialize(mode,startPosition,loop,{});
+
+	// Capa_1
+	this.shape = new cjs.Shape();
+	this.shape.graphics.f("#FFFFFF").s().p("AhRBSQgigiABgwQgBgvAigiQAigiAvABQAwgBAiAiQAhAiAAAvQAAAwghAiQgiAhgwAAQgvAAgighg");
+
+	this.timeline.addTween(cjs.Tween.get(this.shape).wait(1));
+
+}).prototype = getMCSymbolPrototype(lib.dumi, new cjs.Rectangle(-11.5,-11.5,23.1,23.1), null);
+
+
 (lib.clavo = function(mode,startPosition,loop) {
 	this.initialize(mode,startPosition,loop,{});
 
@@ -265,7 +277,31 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		var _this = this;
 		
+		var canvas = _this.getStage().canvas;
+		var container = canvas.parentElement.parentElement;
+		
 		var modoAplica;
+		
+		var escala = 1;
+		
+		function update(event){
+			console.log("**********************");
+			console.log("-------------------");
+			console.log(Math.round(window.devicePixelRatio * 100));
+			
+			escala = Math.round(window.devicePixelRatio*100)/100;
+			
+			var w = 914*escala;
+			
+			escala = 914/w;
+			
+			console.log(escala);
+			
+			console.log(_this.getStage().mouseX * escala);
+			console.log(_this.getStage().mouseY * escala);
+		}
+		
+		_this.addEventListener("tick", update);
 		
 		try{
 			modoAplica = this.getStage().getVariable;
@@ -492,7 +528,6 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		}
 		var btn = this.btn;
 		
-		
 		var funciones_arr = [];
 		var graf_arr = [];
 		
@@ -570,8 +605,8 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 			var mc = event.currentTarget;
 			var p = crearPunto();
 			
-			p.x = event.stageX;
-			p.y = event.stageY;
+			p.x = _this.getStage().mouseX*escala;	
+			p.y = _this.getStage().mouseY*escala;	
 			
 			dragP = p;
 			
@@ -591,9 +626,9 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		function press(event){
 			pressDefault();
 			var mc = event.currentTarget;	
-			var offset = mc.globalToLocal(event.stageX, event.stageY);
-			mc.offsetX = offset.x * mc.scaleX;	
-			mc.offsetY = offset.y * mc.scaleY;		
+			var offset = mc.globalToLocal(_this.getStage().mouseX*escala, _this.getStage().mouseY*escala);
+			mc.offsetX = offset.x * mc.scaleX *escala;	
+			mc.offsetY = offset.y * mc.scaleY*escala;		
 			dragP = mc;
 			dragP.movido = false;
 		}
@@ -601,8 +636,8 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		function drag(event){
 			var mc = event.currentTarget;
 			mc.movido = true;
-			dragP.x = event.stageX;	
-			dragP.y = event.stageY;		
+			dragP.x = _this.getStage().mouseX*escala;	
+			dragP.y = _this.getStage().mouseY*escala;		
 			dibujarLineas();
 		}
 		
@@ -623,7 +658,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		function release(event){	
 			var mc = event.currentTarget;
 			if(mc.movido){
-				snapPunto(dragP, event.stageX, event.stageY);
+				snapPunto(dragP, _this.getStage().mouseX*escala, _this.getStage().mouseY*escala);
 				dibujarLineas();
 			}else{
 				if(puntos_arr.length >2){
@@ -654,19 +689,19 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		//Primera goma-------------------------------------------------------
 		function btnPress(event){
 			var mc = event.currentTarget;	
-			var offset = mc.globalToLocal(event.stageX, event.stageY);
-			goma1_mc.offsetX = offset.x;	
-			goma1_mc.offsetY = offset.y;
+			var offset = mc.globalToLocal(_this.getStage().mouseX, _this.getStage().mouseY);
+			goma1_mc.offsetX = offset.x*escala;	;	
+			goma1_mc.offsetY = offset.y*escala;	;
 			goma_btn.visible = false;
 			goma1_mc.visible = true;
-			goma1_mc.x = event.stageX + goma1_mc.offsetX;	
-			goma1_mc.y = event.stageY + goma1_mc.offsetY;	
+			goma1_mc.x = _this.getStage().mouseX*escala + goma1_mc.offsetX;	
+			goma1_mc.y = _this.getStage().mouseY*escala + goma1_mc.offsetY;	
 		}
 		
 		function btnDrag(event){
 			var mc = event.currentTarget;
-			goma1_mc.x = event.stageX + goma1_mc.offsetX;	
-			goma1_mc.y = event.stageY + goma1_mc.offsetY;			
+			goma1_mc.x = _this.getStage().mouseX*escala + goma1_mc.offsetX;	
+			goma1_mc.y = _this.getStage().mouseY*escala + goma1_mc.offsetY;			
 			dibujarLineas();
 		}
 		
@@ -888,6 +923,11 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.p1},{t:this.p2},{t:this.point_mc},{t:this.eliminar_btn},{t:this.txt},{t:this.grid1_btn},{t:this.grid2_btn},{t:this.resalte_mc}]}).wait(2));
 
 	// Capa_3
+	this.dumi = new lib.dumi();
+	this.dumi.name = "dumi";
+	this.dumi.parent = this;
+	this.dumi.setTransform(913.7,765.1);
+
 	this.goma1_mc = new lib.goma1_mc();
 	this.goma1_mc.name = "goma1_mc";
 	this.goma1_mc.parent = this;
@@ -911,15 +951,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.instance_1.parent = this;
 	this.instance_1.setTransform(-1,-20);
 
-	this.shape = new cjs.Shape();
-	this.shape.graphics.f().s("#194356").ss(1,1,1).p("ABzAAQAAAwgiAhQghAjgwAAQgvAAgigjQgighAAgwQAAgvAigiQAigiAvAAQAwAAAhAiQAiAiAAAvg");
-	this.shape.setTransform(1013,474.3);
-
-	this.shape_1 = new cjs.Shape();
-	this.shape_1.graphics.f("#666666").s().p("AhRBRQgighABgwQgBgvAigiQAighAvgBQAwABAiAhQAhAiAAAvQAAAwghAhQgiAigwABQgvgBgigig");
-	this.shape_1.setTransform(1013,474.3);
-
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_1},{t:this.shape},{t:this.instance_1},{t:this.clavo},{t:this.instance},{t:this.goma_btn},{t:this.goma1_mc}]}).wait(2));
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.instance_1},{t:this.clavo},{t:this.instance},{t:this.goma_btn},{t:this.goma1_mc},{t:this.dumi}]}).wait(2));
 
 }).prototype = p = new cjs.MovieClip();
 p.nominalBounds = new cjs.Rectangle(358.5,363,1244.1,806);
@@ -932,8 +964,8 @@ lib.properties = {
 	color: "#FFFFFF",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/blackwood.jpg?1650337984344", id:"blackwood"},
-		{src:"images/Mapadebits2.png?1650337984344", id:"Mapadebits2"}
+		{src:"images/blackwood.jpg?1650371333504", id:"blackwood"},
+		{src:"images/Mapadebits2.png?1650371333504", id:"Mapadebits2"}
 	],
 	preloads: []
 };
