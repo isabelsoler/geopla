@@ -626,10 +626,12 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 				snapPunto(dragP, event.stageX, event.stageY);
 				dibujarLineas();
 			}else{
-				eliminar_btn.visible = true;
-				_this.setChildIndex(eliminar_btn, _this.getNumChildren()-1);
-				eliminar_btn.x = mc.x;
-				eliminar_btn.y = mc.y -40;
+				if(puntos_arr.length >2){
+					eliminar_btn.visible = true;
+					_this.setChildIndex(eliminar_btn, _this.getNumChildren()-1);
+					eliminar_btn.x = mc.x;
+					eliminar_btn.y = mc.y -40;
+				}
 			}
 			calcularArea();
 		}
@@ -930,8 +932,8 @@ lib.properties = {
 	color: "#FFFFFF",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/blackwood.jpg?1650337835291", id:"blackwood"},
-		{src:"images/Mapadebits2.png?1650337835291", id:"Mapadebits2"}
+		{src:"images/blackwood.jpg?1650337984344", id:"blackwood"},
+		{src:"images/Mapadebits2.png?1650337984344", id:"Mapadebits2"}
 	],
 	preloads: []
 };
