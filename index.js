@@ -283,22 +283,12 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		var modoAplica;
 		
 		var escala = 1;
+		var w;
 		
 		function update(event){
-			console.log("**********************");
-			console.log("-------------------");
-			console.log(Math.round(window.devicePixelRatio * 100));
-			
-			escala = Math.round(window.devicePixelRatio*100)/100;
-			
-			var w = 914*escala;
-			
+			escala = Math.round(window.devicePixelRatio*100)/100;	
+			w = 914*escala;	
 			escala = 914/w;
-			
-			console.log(escala);
-			
-			console.log(_this.getStage().mouseX * escala);
-			console.log(_this.getStage().mouseY * escala);
 		}
 		
 		_this.addEventListener("tick", update);
@@ -964,8 +954,8 @@ lib.properties = {
 	color: "#FFFFFF",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/blackwood.jpg?1650371333504", id:"blackwood"},
-		{src:"images/Mapadebits2.png?1650371333504", id:"Mapadebits2"}
+		{src:"images/blackwood.jpg?1650372090942", id:"blackwood"},
+		{src:"images/Mapadebits2.png?1650372090942", id:"Mapadebits2"}
 	],
 	preloads: []
 };
