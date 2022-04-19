@@ -607,6 +607,8 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 				puntos_arr[i].i2 = i+1;
 				if(i+1 == puntos_arr.length) puntos_arr[i].i2 = 0;
 			}
+			dragP.movido = true;
+			dragP.nuevo = true;
 		}
 		
 		function pressDefault(){
@@ -621,11 +623,12 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 			mc.offsetY = offset.y * mc.scaleY*escala;		
 			dragP = mc;
 			dragP.movido = false;
+			dragP.nuevo = false;
 		}
 		
 		function drag(event){
 			var mc = event.currentTarget;
-			mc.movido = true;
+			dragP.movido = true;
 			dragP.x = _this.getStage().mouseX*escala;	
 			dragP.y = _this.getStage().mouseY*escala;		
 			dibujarLineas();
@@ -643,21 +646,38 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 				mc.x = margen + Math.round((cx-margen-gridOfset)/gridDist)*gridDist + gridOfset;	
 			}
 			mc.y = margen + Math.round((cy-margen)/gridDist)*gridDist;	
+			
 		}
 		
 		function release(event){	
 			var mc = event.currentTarget;
-			if(mc.movido){
+			if(dragP.movido){
 				snapPunto(dragP, _this.getStage().mouseX*escala, _this.getStage().mouseY*escala);
 				dibujarLineas();
 			}else{
 				if(puntos_arr.length >2){
 					eliminar_btn.visible = true;
 					_this.setChildIndex(eliminar_btn, _this.getNumChildren()-1);
-					eliminar_btn.x = mc.x;
-					eliminar_btn.y = mc.y -40;
+					eliminar_btn.x = dragP.x;
+					eliminar_btn.y = dragP.y -40;
 				}
 			}
+		
+			if(dragP.nuevo){
+				for(var i=0; i<puntos_arr.length; i++){
+					if(puntos_arr[i] != dragP){
+						if(puntos_arr[i].x == dragP.x){
+							if(puntos_arr[i].y == dragP.y){
+								puntos_arr.splice(dragP.i1, 1);	
+								dibujarLineas();
+								eliminar_btn.visible = false;
+								eliminarPunto(dragP);
+							}
+						}
+					}
+				}
+			}
+			
 			calcularArea();
 		}
 		
@@ -680,18 +700,18 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		function btnPress(event){
 			var mc = event.currentTarget;	
 			var offset = mc.globalToLocal(_this.getStage().mouseX, _this.getStage().mouseY);
-			goma1_mc.offsetX = offset.x*escala;	;	
-			goma1_mc.offsetY = offset.y*escala;	;
+			goma1_mc.offsetX = offset.x*escala;	
+			goma1_mc.offsetY = offset.y*escala;
 			goma_btn.visible = false;
 			goma1_mc.visible = true;
-			goma1_mc.x = _this.getStage().mouseX*escala + goma1_mc.offsetX;	
-			goma1_mc.y = _this.getStage().mouseY*escala + goma1_mc.offsetY;	
+			goma1_mc.x = _this.getStage().mouseX*escala;// + goma1_mc.offsetX;	
+			goma1_mc.y = _this.getStage().mouseY*escala;// + goma1_mc.offsetY;	
 		}
 		
 		function btnDrag(event){
 			var mc = event.currentTarget;
-			goma1_mc.x = _this.getStage().mouseX*escala + goma1_mc.offsetX;	
-			goma1_mc.y = _this.getStage().mouseY*escala + goma1_mc.offsetY;			
+			goma1_mc.x = _this.getStage().mouseX*escala;// + goma1_mc.offsetX;	
+			goma1_mc.y = _this.getStage().mouseY*escala;// + goma1_mc.offsetY;			
 			dibujarLineas();
 		}
 		
@@ -954,8 +974,8 @@ lib.properties = {
 	color: "#FFFFFF",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/blackwood.jpg?1650372090942", id:"blackwood"},
-		{src:"images/Mapadebits2.png?1650372090942", id:"Mapadebits2"}
+		{src:"images/blackwood.jpg?1650411041032", id:"blackwood"},
+		{src:"images/Mapadebits2.png?1650411041032", id:"Mapadebits2"}
 	],
 	preloads: []
 };
