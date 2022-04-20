@@ -664,15 +664,19 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 			}
 		
 			for(var i=0; i<puntos_arr.length; i++){
-				if(puntos_arr[i] != dragP){
-					if(puntos_arr[i].x == dragP.x){
-						if(puntos_arr[i].y == dragP.y){
-							puntos_arr.splice(dragP.i1, 1);	
-							dibujarLineas();
-							eliminar_btn.visible = false;
-							eliminarPunto(dragP);
-						}
+				if(puntos_arr[i] == dragP){
+					var i1 = i-1;
+					var i2 = i+1;
+					if(i1 <0) i1 = puntos_arr.length + i1;
+					if(i2 >= puntos_arr.length) i2 = i2 - puntos_arr.length;
+					
+					if((puntos_arr[i1].x == dragP.x && puntos_arr[i1].y == dragP.y) || (puntos_arr[i2].x == dragP.x && puntos_arr[i2].y == dragP.y)){
+						puntos_arr.splice(dragP.i1, 1);	
+						dibujarLineas();
+						eliminar_btn.visible = false;
+						eliminarPunto(dragP);				
 					}
+					i=puntos_arr.length+1;
 				}
 			}
 			calcularArea();
@@ -971,8 +975,8 @@ lib.properties = {
 	color: "#FFFFFF",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/blackwood.jpg?1650411187359", id:"blackwood"},
-		{src:"images/Mapadebits2.png?1650411187359", id:"Mapadebits2"}
+		{src:"images/blackwood.jpg?1650412950622", id:"blackwood"},
+		{src:"images/Mapadebits2.png?1650412950622", id:"Mapadebits2"}
 	],
 	preloads: []
 };
