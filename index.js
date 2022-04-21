@@ -538,6 +538,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		var gomaClip_arr = [];
 		
 		var gomaGraf_arr = [];
+		var gomaGrafArea_arr = [];
 		
 		var gomaSel;
 		
@@ -546,14 +547,22 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		function dibujarLineas(){
 			for(var i=0; i<gomaGraf_arr.length; i++){
 				_this.removeChild(gomaGraf_arr[i]);
+				_this.removeChild(gomaGrafArea_arr[i]);
 			}
 			gomaGraf_arr = [];
+			gomaGrafArea_arr = [];
 			for(var i=0; i<puntos_arr.length; i++){
 				var graf = crearClipDibujo();
 				gomaGraf_arr.push(graf);
 				graf.graf.clear();
 				graf.graf.beginStroke("#9255CF");
 				graf.graf.setStrokeStyle(8, "round");	
+				
+				var grafA = crearClipDibujo();
+				gomaGrafArea_arr.push(grafA);
+				grafA.graf.clear();
+				grafA.graf.beginStroke("#9255CF");
+				grafA.graf.setStrokeStyle(40, "round");	
 				
 				var p1 = puntos_arr[i];
 				graf.i1 = i;
@@ -567,11 +576,17 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 				}
 				
 				graf.graf.moveTo(p1.x, p1.y);
-				graf.graf.lineTo(p2.x, p2.y);		
+				graf.graf.lineTo(p2.x, p2.y);	
+				
+				grafA.graf.moveTo(p1.x, p1.y);
+				grafA.graf.lineTo(p2.x, p2.y);
 				
 				graf.addEventListener("mousedown", linePress);
 				graf.addEventListener("pressmove", drag);	
 				graf.addEventListener("pressup", release);
+				
+				graf.hitArea = grafA.shape;
+				grafA.visible = false;
 			}
 			for(var i=0; i<puntos_arr.length; i++){
 				puntos_arr[i].i1 = i;
@@ -609,6 +624,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 			}
 			dragP.movido = true;
 			dragP.nuevo = true;
+			dibujarLineas();
 		}
 		
 		function pressDefault(){
@@ -847,7 +863,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 					_this.txt.text = "Àrea =  0";
 				}
 			}else{
-				_this.txt.text = "Evita que el costats s'intersequin";
+				_this.txt.text = "Els costats s'intersequen";
 			}
 			
 			for(var i=0; i<auxPoints_arr.length; i++){
@@ -975,8 +991,8 @@ lib.properties = {
 	color: "#FFFFFF",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/blackwood.jpg?1650412950622", id:"blackwood"},
-		{src:"images/Mapadebits2.png?1650412950622", id:"Mapadebits2"}
+		{src:"images/blackwood.jpg?1650541297902", id:"blackwood"},
+		{src:"images/Mapadebits2.png?1650541297902", id:"Mapadebits2"}
 	],
 	preloads: []
 };
