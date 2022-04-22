@@ -667,6 +667,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 				cy = mc.y;
 			}
 		
+			cx = clamp(cx, 0, escenaW-gridDist/2);	
 			cy = clamp(cy, 0, escenaH-gridDist);	
 			
 			var snapX = Math.round((cy-margen)/gridDist);
@@ -1005,8 +1006,8 @@ lib.properties = {
 	color: "#FFFFFF",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/blackwood.jpg?1650586976254", id:"blackwood"},
-		{src:"images/Mapadebits2.png?1650586976254", id:"Mapadebits2"}
+		{src:"images/blackwood.jpg?1650587068388", id:"blackwood"},
+		{src:"images/Mapadebits2.png?1650587068388", id:"Mapadebits2"}
 	],
 	preloads: []
 };
