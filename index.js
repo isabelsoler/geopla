@@ -683,14 +683,15 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 			var mc = event.currentTarget;
 			if(!dragP.movido){
 				if(puntos_arr.length >2){
-					eliminar_btn.visible = true;
-					_this.setChildIndex(eliminar_btn, _this.getNumChildren()-1);
+					eliminar_btn.visible = true;			
 					eliminar_btn.x = dragP.x;
 					eliminar_btn.y = dragP.y -40;
 				}
 			}
 			snapPunto(dragP, _this.getStage().mouseX*escala, _this.getStage().mouseY*escala);
 			dibujarLineas();
+			
+			_this.setChildIndex(eliminar_btn, _this.getNumChildren()-1);
 		
 			for(var i=0; i<puntos_arr.length; i++){
 				if(puntos_arr[i] == dragP){
@@ -1004,8 +1005,8 @@ lib.properties = {
 	color: "#FFFFFF",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/blackwood.jpg?1650586819282", id:"blackwood"},
-		{src:"images/Mapadebits2.png?1650586819282", id:"Mapadebits2"}
+		{src:"images/blackwood.jpg?1650586976254", id:"blackwood"},
+		{src:"images/Mapadebits2.png?1650586976254", id:"Mapadebits2"}
 	],
 	preloads: []
 };
