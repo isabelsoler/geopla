@@ -354,6 +354,17 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 			return newArr;
 		}
 		
+		//Limitar un valor entre un mínim i un màxim
+		function clamp(val, min, max){
+			var miMax = max;
+			var miMin = min;
+			if(max<min){
+				miMax = min;
+				miMin = max;
+			}
+		    return Math.max(miMin, Math.min(miMax, val));
+		}
+		
 		
 		function redondear(str, decimales){	
 			if(!isNaN(Number(str))){
@@ -655,6 +666,9 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 				cx = mc.x;
 				cy = mc.y;
 			}
+		
+			cy = clamp(cy, 0, escenaH-gridDist);	
+			
 			var snapX = Math.round((cy-margen)/gridDist);
 			if(snapX%2 == 0){
 				mc.x = margen + Math.round((cx-margen)/gridDist)*gridDist;	
@@ -667,10 +681,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		function release(event){	
 			var mc = event.currentTarget;
-			if(dragP.movido){
-				snapPunto(dragP, _this.getStage().mouseX*escala, _this.getStage().mouseY*escala);
-				dibujarLineas();
-			}else{
+			if(!dragP.movido){
 				if(puntos_arr.length >2){
 					eliminar_btn.visible = true;
 					_this.setChildIndex(eliminar_btn, _this.getNumChildren()-1);
@@ -678,6 +689,8 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 					eliminar_btn.y = dragP.y -40;
 				}
 			}
+			snapPunto(dragP, _this.getStage().mouseX*escala, _this.getStage().mouseY*escala);
+			dibujarLineas();
 		
 			for(var i=0; i<puntos_arr.length; i++){
 				if(puntos_arr[i] == dragP){
@@ -991,8 +1004,8 @@ lib.properties = {
 	color: "#FFFFFF",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/blackwood.jpg?1650541297902", id:"blackwood"},
-		{src:"images/Mapadebits2.png?1650541297902", id:"Mapadebits2"}
+		{src:"images/blackwood.jpg?1650586819282", id:"blackwood"},
+		{src:"images/Mapadebits2.png?1650586819282", id:"Mapadebits2"}
 	],
 	preloads: []
 };
